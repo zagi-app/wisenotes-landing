@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO meta – updated by JS per language -->
+  <title>WiseNotes – Organize your notes into projects</title>
+  <meta name="description" content="WiseNotes is a lightweight Android app to organize notes and content within projects, quickly and practically, even on the go." />
+  <meta name="keywords" content="note taking app android, project notes, mobile notes, field notes, wisenotes" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="WiseNotes – Organize your notes into projects" />
+  <meta property="og:description" content="Lightweight Android app for note-taking and project organization on the go." />
+  <meta property="og:url" content="https://github.com/WetRider69-assets/wisenotes-landing" />
+
+  <!-- Canonical (update with your GitHub Pages URL) -->
+  <link rel="canonical" href="https://github.com/WetRider69-assets/wisenotes-landing" />
+
+  <!-- Alternate language versions for Google -->
+  <link rel="alternate" hreflang="en" href="https://github.com/WetRider69-assets/wisenotes-landing?lang=en" />
+  <link rel="alternate" hreflang="it" href="https://github.com/WetRider69-assets/wisenotes-landing?lang=it" />
+  <link rel="alternate" hreflang="es" href="https://github.com/WetRider69-assets/wisenotes-landing?lang=es" />
+  <link rel="alternate" hreflang="fr" href="https://github.com/WetRider69-assets/wisenotes-landing?lang=fr" />
+  <link rel="alternate" hreflang="de" href="https://github.com/WetRider69-assets/wisenotes-landing?lang=de" />
+  <link rel="alternate" hreflang="pt" href="https://github.com/WetRider69-assets/wisenotes-landing?lang=pt" />
+  <link rel="alternate" hreflang="x-default" href="https://github.com/WetRider69-assets/wisenotes-landing" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --bg2: #13161d;
+      --bg3: #1a1e28;
+      --border: #2a2e3a;
+      --text: #e8eaf0;
+      --text2: #9298a8;
+      --accent: #f0a500;
+      --white: #ffffff;
+      --radius: 12px;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'Outfit', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Subtle grain */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    /* ── LANG BAR ── */
+    .lang-bar {
+      background: rgba(13,15,20,0.85);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .lang-bar .container { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .lang-label { font-size: 11px; color: var(--text2); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-right: 2px; }
+    .lang-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: 3px 11px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-btn.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 600; }
+
+    /* ── HERO ── */
+    .hero { padding: 84px 0 64px; position: relative; }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -80px; right: -180px;
+      width: 560px; height: 560px;
+      background: radial-gradient(circle, rgba(240,165,0,0.08) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero-eyebrow { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 20px; }
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(2.2rem, 5.5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.08;
+      color: var(--white);
+      margin-bottom: 22px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-sub { font-size: 1.05rem; color: var(--text2); max-width: 560px; margin-bottom: 36px; font-weight: 300; line-height: 1.85; }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #000;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 32px rgba(240,165,0,0.22);
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(240,165,0,0.36); }
+    .cta-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent); }
+
+    /* ── SECTIONS ── */
+    section { padding: 62px 0; }
+    .section-tag { display: inline-block; font-size: 11px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+    h2 { font-family: var(--font-head); font-size: clamp(1.45rem, 3vw, 2rem); font-weight: 700; color: var(--white); margin-bottom: 14px; line-height: 1.2; }
+    .section-lead { color: var(--text2); font-size: 0.98rem; max-width: 600px; margin-bottom: 32px; font-weight: 300; }
+
+    /* ── TARGET GRID ── */
+    .target-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .target-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      font-size: 0.88rem;
+      color: var(--text);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.5;
+      transition: border-color 0.18s;
+    }
+    .target-item:hover { border-color: var(--accent); }
+    .target-item .icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .who-note { margin-top: 20px; color: var(--text2); font-size: 0.88rem; font-style: italic; }
+
+    /* ── SCREENSHOTS ── */
+    .screenshots-row {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin: 30px 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .screenshot-slot {
+      flex-shrink: 0;
+      width: 155px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .screenshot-slot img { width: 100%; display: block; object-fit: cover; }
+    .screenshot-slot .placeholder {
+      width: 100%;
+      aspect-ratio: 9/17;
+      background: linear-gradient(155deg, #1e2332, #13161d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      opacity: 0.25;
+    }
+    .screenshot-slot .caption {
+      padding: 9px 12px;
+      font-size: 10.5px;
+      color: var(--text2);
+      line-height: 1.4;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── NOTE TYPES ── */
+    .note-types { display: flex; flex-wrap: wrap; gap: 10px; }
+    .note-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 0.88rem;
+      color: var(--text);
+      transition: border-color 0.18s, background 0.18s;
+    }
+    .note-chip:hover { border-color: var(--accent); background: var(--bg3); }
+    .note-chip .emoji { font-size: 1.05rem; }
+
+    /* ── FEATURE LIST ── */
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .feature-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.93rem; color: var(--text); }
+    .feature-list li::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    /* ── EXPORT CARDS ── */
+    .export-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .export-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      font-size: 0.88rem;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+    .export-card strong { display: block; color: var(--white); font-family: var(--font-head); font-size: 0.98rem; margin-bottom: 5px; }
+
+    /* ── FINAL CTA ── */
+    .final-cta { padding: 72px 0; text-align: center; position: relative; }
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(240,165,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .final-cta h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 14px; }
+    .final-cta p { color: var(--text2); margin-bottom: 32px; font-size: 0.98rem; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); padding: 22px 0; text-align: center; font-size: 12px; color: var(--text2); }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── ANIMATIONS ── */
+    .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 600px) {
+      .hero { padding: 52px 0 40px; }
+      section { padding: 46px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LANGUAGE BAR -->
+<nav class="lang-bar" aria-label="Language selector">
+  <div class="container">
+    <span class="lang-label">🌍</span>
+    <button class="lang-btn active" onclick="setLang('en')">🇬🇧 EN</button>
+    <button class="lang-btn" onclick="setLang('it')">🇮🇹 IT</button>
+    <button class="lang-btn" onclick="setLang('es')">🇪🇸 ES</button>
+    <button class="lang-btn" onclick="setLang('fr')">🇫🇷 FR</button>
+    <button class="lang-btn" onclick="setLang('de')">🇩🇪 DE</button>
+    <button class="lang-btn" onclick="setLang('pt')">🇵🇹 PT</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <p class="hero-eyebrow">📝 WiseNotes</p>
+      <h1 data-t="hero_title">Organize your notes<br>into <span>projects</span></h1>
+      <p class="hero-sub" data-t="hero_sub">Quickly and practically, even when you are on the go. Lightweight by design, powerful by purpose.</p>
+      <a href="https://play.google.com/store/apps/details?id=zg.wisenotes.app" target="_blank" rel="noopener" class="cta-btn" aria-label="Download WiseNotes on Google Play">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.18 23.76c.33.19.7.24 1.06.14l12.04-6.96-2.56-2.56-10.54 9.38zm-1.04-20.3A1.97 1.97 0 0 0 2 4.67v14.66c0 .55.14 1.05.14 1.05l10.82-9.37L2.14 3.46zm19.1 8.06-2.9-1.68-2.88 2.88 2.88 2.88 2.92-1.69c.83-.48.83-1.91-.02-2.39zM4.24.1 16.28 7.06 13.72 9.6 3.18.22C3.55.12 3.92.17 4.24.1z"/></svg>
+        <span data-t="cta">Download on Google Play</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- WHO -->
+  <section class="fade-in">
+    <div class="container">
+      <span class="section-tag" data-t="who_tag">Who it's for</span>
+      <h2 data-t="who_title">Built for people who are always moving</h2>
+      <p class="section-lead" data-t="who_lead">WiseNotes is designed for people who work or study on multiple projects and need to stay organized quickly, even while on the move.</p>
+      <div class="target-grid">
+        <div class="target-item"><span class="icon">🏗️</span><span data-t="who_1">Work or study on multiple projects</span></div>
+        <div class="target-item"><span class="icon">📂</span><span data-t="who_2">Collect notes and files in one place</span></div>
+        <div class="target-item"><span class="icon">⚡</span><span data-t="who_3">Prefer a simple, practical, and lightweight app</span></div>
+        <div class="target-item"><span class="icon">🚶</span><span data-t="who_4">Need to stay organized quickly, even while on the move</span></div>
+      </div>
+      <p class="who-note" data-t="who_note">No complex systems. Just practical organization.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJECTS + SCREENSHOTS -->
+  <section class="fade-in">
+    <div class="container">
+      <span class="section-tag" data-t="proj_tag">Project-based organization</span>
+      <h2 data-t="proj_title">Everything revolves around your projects</h2>
+      <p class="section-lead" data-t="proj_lead">Create your projects and add all the notes you need. Files, multimedia content, and notes — all organized in a structured way.</p>
+
+      <div class="screenshots-row" aria-label="App screenshots">
+        <div class="screenshot-slot">
+          <!-- To add real screenshots: replace <div class="placeholder"> with <img src="screenshots/1.png" alt="..."> -->
+          <div class="placeholder">📱</div>
+          <div class="caption" data-t="sc1">Homepage – Project overview</div>
+        </div>
+        <div class="screenshot-slot">
+          <div class="placeholder">📱</div>
+          <div class="caption" data-t="sc2">Creating a new project</div>
+        </div>
+        <div class="screenshot-slot">
+          <div class="placeholder">📱</div>
+          <div class="caption" data-t="sc3">Ordering projects</div>
+        </div>
+        <div class="screenshot-slot">
+          <div class="placeholder">📱</div>
+          <div class="caption" data-t="sc4">Choosing the note type to add</div>
+        </div>
+        <div class="screenshot-slot">
+          <div class="placeholder">📱</div>
+          <div class="caption" data-t="sc5">Filtering notes by tags</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- NOTE TYPES -->
+  <section class="fade-in">
+    <div class="container">
+      <span class="section-tag" data-t="notes_tag">Supported note types</span>
+      <h2 data-t="notes_title">Capture anything, anywhere</h2>
+      <p class="section-lead" data-t="notes_lead">Notes can be created directly in the app or imported from your device, and shared individually or as an entire project.</p>
+      <div class="note-types">
+        <div class="note-chip"><span class="emoji">📝</span><span data-t="n1">Text</span></div>
+        <div class="note-chip"><span class="emoji">🖼️</span><span data-t="n2">Images</span></div>
+        <div class="note-chip"><span class="emoji">🎥</span><span data-t="n3">Videos</span></div>
+        <div class="note-chip"><span class="emoji">🎤</span><span data-t="n4">Audio</span></div>
+        <div class="note-chip"><span class="emoji">📄</span><span data-t="n5">Documents</span></div>
+        <div class="note-chip"><span class="emoji">📍</span><span data-t="n6">Locations &amp; maps</span></div>
+        <div class="note-chip"><span class="emoji">💰</span><span data-t="n7">Expenses</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- UI -->
+  <section class="fade-in">
+    <div class="container">
+      <span class="section-tag" data-t="ui_tag">Simple &amp; fast interface</span>
+      <h2 data-t="ui_title">Designed to stay out of your way</h2>
+      <p class="section-lead" data-t="ui_lead">WiseNotes focuses on what matters: getting your idea captured fast and finding it again easily.</p>
+      <ul class="feature-list">
+        <li data-t="ui_1">Minimal UI — no clutter, no distractions</li>
+        <li data-t="ui_2">Quick actions — few taps to add or share content</li>
+        <li data-t="ui_3">Long tap on project or note name to manage tags</li>
+        <li data-t="ui_4">Lightweight — works smoothly even on older devices</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EXPORT -->
+  <section class="fade-in">
+    <div class="container">
+      <span class="section-tag" data-t="export_tag">Export &amp; share</span>
+      <h2 data-t="export_title">Your data, your way</h2>
+      <p class="section-lead" data-t="export_lead">Manage and transfer your content in a simple and flexible way.</p>
+      <div class="export-cards">
+        <div class="export-card"><strong data-t="ex1_title">Complete archive</strong><span data-t="ex1_body">Create a full archive of any project with a single action.</span></div>
+        <div class="export-card"><strong data-t="ex2_title">Flexible sharing</strong><span data-t="ex2_body">Share single notes or entire projects with anyone.</span></div>
+        <div class="export-card"><strong data-t="ex3_title">Cloud ready</strong><span data-t="ex3_body">Save everything to your preferred cloud service seamlessly.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta fade-in">
+    <div class="container">
+      <h2 data-t="final_title">Ready to get organized?</h2>
+      <p data-t="final_sub">WiseNotes is available on Google Play. Free to try.</p>
+      <a href="https://play.google.com/store/apps/details?id=zg.wisenotes.app" target="_blank" rel="noopener" class="cta-btn" aria-label="Download WiseNotes on Google Play">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.18 23.76c.33.19.7.24 1.06.14l12.04-6.96-2.56-2.56-10.54 9.38zm-1.04-20.3A1.97 1.97 0 0 0 2 4.67v14.66c0 .55.14 1.05.14 1.05l10.82-9.37L2.14 3.46zm19.1 8.06-2.9-1.68-2.88 2.88 2.88 2.88 2.92-1.69c.83-.48.83-1.91-.02-2.39zM4.24.1 16.28 7.06 13.72 9.6 3.18.22C3.55.12 3.92.17 4.24.1z"/></svg>
+        <span data-t="cta">Download on Google Play</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>© 2025 WiseNotes &nbsp;·&nbsp; <a href="https://play.google.com/store/apps/details?id=zg.wisenotes.app" target="_blank" rel="noopener">Google Play</a></p>
+  </div>
+</footer>
+
+<script>
+const T = {
+  en: {
+    hero_title:'Organize your notes<br>into <span>projects</span>',
+    hero_sub:'Quickly and practically, even when you are on the go. Lightweight by design, powerful by purpose.',
+    cta:'Download on Google Play',
+    who_tag:"Who it's for", who_title:'Built for people who are always moving',
+    who_lead:'WiseNotes is designed for people who work or study on multiple projects and need to stay organized quickly, even while on the move.',
+    who_1:'Work or study on multiple projects', who_2:'Collect notes and files in one place',
+    who_3:'Prefer a simple, practical, and lightweight app', who_4:'Need to stay organized quickly, even while on the move',
+    who_note:'No complex systems. Just practical organization.',
+    proj_tag:'Project-based organization', proj_title:'Everything revolves around your projects',
+    proj_lead:'Create your projects and add all the notes you need. Files, multimedia content, and notes — all organized in a structured way.',
+    sc1:'Homepage – Project overview', sc2:'Creating a new project', sc3:'Ordering projects',
+    sc4:'Choosing the note type to add', sc5:'Filtering notes by tags',
+    notes_tag:'Supported note types', notes_title:'Capture anything, anywhere',
+    notes_lead:'Notes can be created directly in the app or imported from your device, and shared individually or as an entire project.',
+    n1:'Text', n2:'Images', n3:'Videos', n4:'Audio', n5:'Documents', n6:'Locations & maps', n7:'Expenses',
+    ui_tag:'Simple & fast interface', ui_title:'Designed to stay out of your way',
+    ui_lead:'WiseNotes focuses on what matters: getting your idea captured fast and finding it again easily.',
+    ui_1:'Minimal UI — no clutter, no distractions', ui_2:'Quick actions — few taps to add or share content',
+    ui_3:'Long tap on project or note name to manage tags', ui_4:'Lightweight — works smoothly even on older devices',
+    export_tag:'Export & share', export_title:'Your data, your way',
+    export_lead:'Manage and transfer your content in a simple and flexible way.',
+    ex1_title:'Complete archive', ex1_body:'Create a full archive of any project with a single action.',
+    ex2_title:'Flexible sharing', ex2_body:'Share single notes or entire projects with anyone.',
+    ex3_title:'Cloud ready', ex3_body:'Save everything to your preferred cloud service seamlessly.',
+    final_title:'Ready to get organized?', final_sub:'WiseNotes is available on Google Play. Free to try.',
+  },
+  it: {
+    hero_title:'Organizza le tue note<br>in <span>progetti</span>',
+    hero_sub:'Velocemente e in modo pratico, anche quando sei in movimento. Leggero per natura, efficace per scopo.',
+    cta:'Scarica su Google Play',
+    who_tag:'A chi è rivolto', who_title:'Pensato per chi è sempre in movimento',
+    who_lead:'WiseNotes è progettato per chi lavora o studia su più progetti e ha bisogno di restare organizzato velocemente, anche in mobilità.',
+    who_1:'Lavora o studia su più progetti', who_2:'Vuole raccogliere note e file in un unico posto',
+    who_3:"Preferisce un'app semplice, pratica e leggera", who_4:'Ha bisogno di organizzarsi rapidamente, anche in movimento',
+    who_note:'Nessun sistema complesso. Solo organizzazione pratica.',
+    proj_tag:'Organizzazione per progetti', proj_title:'Tutto ruota attorno ai tuoi progetti',
+    proj_lead:'Crea i tuoi progetti e aggiungi tutte le note di cui hai bisogno. File, contenuti multimediali e note — tutto organizzato in modo strutturato.',
+    sc1:'Panoramica dei progetti', sc2:'Creazione di un nuovo progetto', sc3:'Ordinamento dei progetti',
+    sc4:'Scelta del tipo di nota da aggiungere', sc5:'Filtro delle note per tag',
+    notes_tag:'Tipi di note supportati', notes_title:'Cattura qualsiasi cosa, ovunque',
+    notes_lead:"Le note possono essere create direttamente nell'app o importate dal dispositivo, e condivise singolarmente o come intero progetto.",
+    n1:'Testo', n2:'Immagini', n3:'Video', n4:'Audio', n5:'Documenti', n6:'Posizioni & mappe', n7:'Spese',
+    ui_tag:'Interfaccia semplice e veloce', ui_title:'Progettata per non intralciarti',
+    ui_lead:'WiseNotes si concentra su ciò che conta: catturare le idee velocemente e ritrovarle facilmente.',
+    ui_1:'UI minimale — nessun elemento superfluo', ui_2:'Azioni rapide — pochi tap per aggiungere o condividere',
+    ui_3:'Tieni premuto sul nome del progetto o della nota per gestire i tag', ui_4:'Leggero — funziona fluidamente anche su dispositivi datati',
+    export_tag:'Esporta e condividi', export_title:'I tuoi dati, come vuoi tu',
+    export_lead:'Gestisci e trasferisci i tuoi contenuti in modo semplice e flessibile.',
+    ex1_title:'Archivio completo', ex1_body:'Crea un archivio completo di qualsiasi progetto con una sola azione.',
+    ex2_title:'Condivisione flessibile', ex2_body:'Condividi singole note o interi progetti con chiunque.',
+    ex3_title:'Pronto per il cloud', ex3_body:'Salva tutto sul tuo servizio cloud preferito senza sforzo.',
+    final_title:'Pronto a organizzarti?', final_sub:'WiseNotes è disponibile su Google Play.',
+  },
+  es: {
+    hero_title:'Organiza tus notas<br>en <span>proyectos</span>',
+    hero_sub:'Rápido y práctico, incluso cuando estás en movimiento. Ligero por diseño, potente por propósito.',
+    cta:'Descargar en Google Play',
+    who_tag:'Para quién es', who_title:'Diseñado para quienes siempre están en movimiento',
+    who_lead:'WiseNotes está pensado para personas que trabajan o estudian en varios proyectos y necesitan mantenerse organizadas, incluso en movilidad.',
+    who_1:'Trabajan o estudian en múltiples proyectos', who_2:'Quieren reunir notas y archivos en un solo lugar',
+    who_3:'Prefieren una app simple, práctica y ligera', who_4:'Necesitan organizarse rápidamente, incluso en movimiento',
+    who_note:'Sin sistemas complejos. Solo organización práctica.',
+    proj_tag:'Organización por proyectos', proj_title:'Todo gira en torno a tus proyectos',
+    proj_lead:'Crea tus proyectos y añade todas las notas que necesitas. Archivos, contenido multimedia y notas — todo organizado de forma estructurada.',
+    sc1:'Pantalla principal – Vista de proyectos', sc2:'Creando un nuevo proyecto', sc3:'Ordenando proyectos',
+    sc4:'Eligiendo el tipo de nota', sc5:'Filtrando notas por etiquetas',
+    notes_tag:'Tipos de notas', notes_title:'Captura cualquier cosa, en cualquier lugar',
+    notes_lead:'Las notas se pueden crear directamente en la app o importar desde el dispositivo, y compartir individualmente o como proyecto completo.',
+    n1:'Texto', n2:'Imágenes', n3:'Vídeos', n4:'Audio', n5:'Documentos', n6:'Ubicaciones y mapas', n7:'Gastos',
+    ui_tag:'Interfaz simple y rápida', ui_title:'Diseñada para no interrumpirte',
+    ui_lead:'WiseNotes se centra en lo que importa: capturar tu idea rápido y encontrarla fácilmente.',
+    ui_1:'UI mínima — sin distracciones ni elementos innecesarios', ui_2:'Acciones rápidas — pocos toques para añadir o compartir',
+    ui_3:'Mantén pulsado el nombre del proyecto o nota para gestionar etiquetas', ui_4:'Ligero — funciona sin problemas incluso en dispositivos antiguos',
+    export_tag:'Exportar y compartir', export_title:'Tus datos, a tu manera',
+    export_lead:'Gestiona y transfiere tu contenido de forma simple y flexible.',
+    ex1_title:'Archivo completo', ex1_body:'Crea un archivo completo de cualquier proyecto con una sola acción.',
+    ex2_title:'Compartir flexible', ex2_body:'Comparte notas individuales o proyectos completos con cualquiera.',
+    ex3_title:'Listo para la nube', ex3_body:'Guarda todo en tu servicio en la nube preferido sin esfuerzo.',
+    final_title:'¿Listo para organizarte?', final_sub:'WiseNotes está disponible en Google Play.',
+  },
+  fr: {
+    hero_title:'Organisez vos notes<br>en <span>projets</span>',
+    hero_sub:'Rapidement et facilement, même en déplacement. Léger par conception, puissant dans les faits.',
+    cta:'Télécharger sur Google Play',
+    who_tag:'Pour qui', who_title:'Conçu pour ceux qui sont toujours en mouvement',
+    who_lead:'WiseNotes est pensé pour les personnes qui travaillent ou étudient sur plusieurs projets et ont besoin de rester organisées, même en déplacement.',
+    who_1:'Travaillent ou étudient sur plusieurs projets', who_2:'Veulent regrouper notes et fichiers au même endroit',
+    who_3:"Préfèrent une app simple, pratique et légère", who_4:"Ont besoin de s'organiser rapidement, même en déplacement",
+    who_note:"Pas de systèmes complexes. Juste de l'organisation pratique.",
+    proj_tag:'Organisation par projets', proj_title:'Tout tourne autour de vos projets',
+    proj_lead:'Créez vos projets et ajoutez toutes les notes dont vous avez besoin. Fichiers, contenus multimédia et notes — tout organisé de façon structurée.',
+    sc1:"Accueil – Vue d'ensemble des projets", sc2:'Création d\'un nouveau projet', sc3:'Tri des projets',
+    sc4:'Choix du type de note', sc5:'Filtrage des notes par tags',
+    notes_tag:'Types de notes', notes_title:"Capturez n'importe quoi, n'importe où",
+    notes_lead:"Les notes peuvent être créées directement dans l'app ou importées depuis l'appareil, et partagées individuellement ou comme projet complet.",
+    n1:'Texte', n2:'Images', n3:'Vidéos', n4:'Audio', n5:'Documents', n6:'Lieux & cartes', n7:'Dépenses',
+    ui_tag:'Interface simple et rapide', ui_title:'Conçue pour ne pas vous ralentir',
+    ui_lead:"WiseNotes se concentre sur l'essentiel : capturer vos idées rapidement et les retrouver facilement.",
+    ui_1:'UI minimale — sans encombrement ni distraction', ui_2:'Actions rapides — peu de taps pour ajouter ou partager',
+    ui_3:"Appui long sur le nom du projet ou de la note pour gérer les tags", ui_4:'Léger — fonctionne même sur les appareils anciens',
+    export_tag:'Exporter et partager', export_title:'Vos données, comme vous voulez',
+    export_lead:'Gérez et transférez votre contenu de façon simple et flexible.',
+    ex1_title:'Archive complète', ex1_body:"Créez une archive complète de n'importe quel projet en une seule action.",
+    ex2_title:'Partage flexible', ex2_body:'Partagez des notes individuelles ou des projets entiers avec n\'importe qui.',
+    ex3_title:'Prêt pour le cloud', ex3_body:'Sauvegardez tout sur votre service cloud préféré sans effort.',
+    final_title:'Prêt à vous organiser ?', final_sub:'WiseNotes est disponible sur Google Play.',
+  },
+  de: {
+    hero_title:'Organisiere deine Notizen<br>in <span>Projekten</span>',
+    hero_sub:'Schnell und praktisch – auch wenn du unterwegs bist. Leichtgewichtig im Design, stark im Einsatz.',
+    cta:'Bei Google Play herunterladen',
+    who_tag:'Für wen', who_title:'Gebaut für Menschen, die immer in Bewegung sind',
+    who_lead:'WiseNotes wurde für Menschen entwickelt, die an mehreren Projekten arbeiten oder studieren und auch unterwegs schnell organisiert bleiben müssen.',
+    who_1:'Arbeiten oder studieren an mehreren Projekten', who_2:'Möchten Notizen und Dateien an einem Ort sammeln',
+    who_3:'Bevorzugen eine einfache, praktische und leichte App', who_4:'Müssen sich schnell organisieren, auch unterwegs',
+    who_note:'Keine komplexen Systeme. Nur praktische Organisation.',
+    proj_tag:'Projektbasierte Organisation', proj_title:'Alles dreht sich um deine Projekte',
+    proj_lead:'Erstelle Projekte und füge alle Notizen hinzu, die du brauchst. Dateien, Multimedia-Inhalte und Notizen — alles strukturiert organisiert.',
+    sc1:'Startseite – Projektübersicht', sc2:'Neues Projekt erstellen', sc3:'Projekte sortieren',
+    sc4:'Notizentyp auswählen', sc5:'Notizen nach Tags filtern',
+    notes_tag:'Unterstützte Notizentypen', notes_title:'Erfasse alles, überall',
+    notes_lead:'Notizen können direkt in der App erstellt oder vom Gerät importiert und einzeln oder als ganzes Projekt geteilt werden.',
+    n1:'Text', n2:'Bilder', n3:'Videos', n4:'Audio', n5:'Dokumente', n6:'Orte & Karten', n7:'Ausgaben',
+    ui_tag:'Einfache & schnelle Oberfläche', ui_title:'Designed, um dir nicht im Weg zu sein',
+    ui_lead:'WiseNotes konzentriert sich auf das Wesentliche: Ideen schnell erfassen und leicht wiederfinden.',
+    ui_1:'Minimale UI — kein Durcheinander, keine Ablenkung', ui_2:'Schnelle Aktionen — wenige Taps zum Hinzufügen oder Teilen',
+    ui_3:'Langer Druck auf Projekt- oder Notiznamen für Tag-Verwaltung', ui_4:'Leichtgewichtig — läuft reibungslos auch auf älteren Geräten',
+    export_tag:'Exportieren & teilen', export_title:'Deine Daten, dein Weg',
+    export_lead:'Verwalte und übertrage deine Inhalte einfach und flexibel.',
+    ex1_title:'Vollständiges Archiv', ex1_body:'Erstelle mit einer einzigen Aktion ein vollständiges Archiv eines Projekts.',
+    ex2_title:'Flexibles Teilen', ex2_body:'Teile einzelne Notizen oder ganze Projekte mit jedem.',
+    ex3_title:'Cloud-bereit', ex3_body:'Speichere alles nahtlos in deinem bevorzugten Cloud-Dienst.',
+    final_title:'Bereit, dich zu organisieren?', final_sub:'WiseNotes ist bei Google Play erhältlich.',
+  },
+  pt: {
+    hero_title:'Organize suas notas<br>em <span>projetos</span>',
+    hero_sub:'De forma rápida e prática, mesmo quando você está em movimento. Leve por design, poderoso na prática.',
+    cta:'Baixar no Google Play',
+    who_tag:'Para quem é', who_title:'Feito para quem está sempre em movimento',
+    who_lead:'WiseNotes foi criado para pessoas que trabalham ou estudam em vários projetos e precisam se manter organizadas rapidamente, mesmo em mobilidade.',
+    who_1:'Trabalham ou estudam em vários projetos', who_2:'Querem reunir notas e arquivos em um só lugar',
+    who_3:'Preferem um app simples, prático e leve', who_4:'Precisam se organizar rapidamente, mesmo em movimento',
+    who_note:'Sem sistemas complexos. Só organização prática.',
+    proj_tag:'Organização por projetos', proj_title:'Tudo gira em torno dos seus projetos',
+    proj_lead:'Crie seus projetos e adicione todas as notas necessárias. Arquivos, conteúdo multimídia e notas — tudo organizado de forma estruturada.',
+    sc1:'Início – Visão geral dos projetos', sc2:'Criando um novo projeto', sc3:'Ordenando projetos',
+    sc4:'Escolhendo o tipo de nota', sc5:'Filtrando notas por tags',
+    notes_tag:'Tipos de notas', notes_title:'Capture qualquer coisa, em qualquer lugar',
+    notes_lead:'As notas podem ser criadas diretamente no app ou importadas do dispositivo, e compartilhadas individualmente ou como projeto completo.',
+    n1:'Texto', n2:'Imagens', n3:'Vídeos', n4:'Áudio', n5:'Documentos', n6:'Localizações & mapas', n7:'Despesas',
+    ui_tag:'Interface simples e rápida', ui_title:'Projetado para não te atrapalhar',
+    ui_lead:'WiseNotes foca no que importa: capturar sua ideia rapidamente e encontrá-la facilmente depois.',
+    ui_1:'UI mínima — sem bagunça, sem distrações', ui_2:'Ações rápidas — poucos toques para adicionar ou compartilhar',
+    ui_3:'Toque longo no nome do projeto ou nota para gerenciar tags', ui_4:'Leve — funciona bem mesmo em dispositivos mais antigos',
+    export_tag:'Exportar e compartilhar', export_title:'Seus dados, do seu jeito',
+    export_lead:'Gerencie e transfira seu conteúdo de forma simples e flexível.',
+    ex1_title:'Arquivo completo', ex1_body:'Crie um arquivo completo de qualquer projeto com uma única ação.',
+    ex2_title:'Compartilhamento flexível', ex2_body:'Compartilhe notas individuais ou projetos inteiros com qualquer pessoa.',
+    ex3_title:'Pronto para a nuvem', ex3_body:'Salve tudo no seu serviço de nuvem favorito sem esforço.',
+    final_title:'Pronto para se organizar?', final_sub:'WiseNotes está disponível no Google Play.',
+  }
+};
+
+const META = {
+  en:{ title:'WiseNotes – Organize your notes into projects', desc:'Lightweight Android app to organize notes within projects, quickly and on the go.' },
+  it:{ title:'WiseNotes – Organizza le tue note in progetti', desc:'App Android leggera per organizzare note e contenuti in progetti, velocemente, anche in mobilità.' },
+  es:{ title:'WiseNotes – Organiza tus notas en proyectos', desc:'App Android ligera para organizar notas y contenidos en proyectos, rápido y en movimiento.' },
+  fr:{ title:'WiseNotes – Organisez vos notes en projets', desc:'App Android légère pour organiser vos notes en projets, rapidement, même en déplacement.' },
+  de:{ title:'WiseNotes – Notizen in Projekten organisieren', desc:'Leichte Android-App zum Organisieren von Notizen in Projekten – schnell, auch unterwegs.' },
+  pt:{ title:'WiseNotes – Organize suas notas em projetos', desc:'App Android leve para organizar notas e conteúdos em projetos, rápido, mesmo em movimento.' },
+};
+
+function setLang(lang) {
+  const dict = T[lang]; if (!dict) return;
+  document.documentElement.lang = lang;
+  document.title = META[lang].title;
+  document.querySelector('meta[name="description"]').content = META[lang].desc;
+  document.querySelector('meta[property="og:title"]').content = META[lang].title;
+  document.querySelector('meta[property="og:description"]').content = META[lang].desc;
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const v = dict[el.getAttribute('data-t')];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick').includes(`'${lang}'`));
+  });
+  const url = new URL(window.location);
+  url.searchParams.set('lang', lang);
+  history.replaceState({}, '', url);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const urlLang = new URLSearchParams(window.location.search).get('lang');
+  const browserLang = navigator.language.slice(0, 2);
+  const supported = Object.keys(T);
+  const lang = supported.includes(urlLang) ? urlLang : supported.includes(browserLang) ? browserLang : 'en';
+  setLang(lang);
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+});
+</script>
+</body>
+</html>
