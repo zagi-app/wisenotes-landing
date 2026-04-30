@@ -281,6 +281,43 @@
     }
     .final-cta h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 14px; }
     .final-cta p { color: var(--text2); margin-bottom: 32px; font-size: 0.98rem; }
+    .final-cta-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+    .qr-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .qr-block img {
+      width: 110px;
+      height: 110px;
+      border-radius: 12px;
+      padding: 8px;
+      background: white;
+      box-shadow: 0 0 24px rgba(240,165,0,0.15);
+    }
+    .qr-label {
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    @media (min-width: 600px) {
+      .final-cta-actions {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+      }
+    }
+    @media (max-width: 599px) {
+      .qr-block { display: none; }
+    }
 
     /* ── FOOTER ── */
     footer { border-top: 1px solid var(--border); padding: 22px 0; text-align: center; font-size: 12px; color: var(--text2); }
@@ -440,10 +477,16 @@
     <div class="container">
       <h2 data-t="final_title">Ready to get organized?</h2>
       <p data-t="final_sub">WiseNotes is available on Google Play. Free to try.</p>
-      <a href="https://play.google.com/store/apps/details?id=zg.wisenotes.app" target="_blank" rel="noopener" class="cta-btn" aria-label="Download WiseNotes on Google Play">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.18 23.76c.33.19.7.24 1.06.14l12.04-6.96-2.56-2.56-10.54 9.38zm-1.04-20.3A1.97 1.97 0 0 0 2 4.67v14.66c0 .55.14 1.05.14 1.05l10.82-9.37L2.14 3.46zm19.1 8.06-2.9-1.68-2.88 2.88 2.88 2.88 2.92-1.69c.83-.48.83-1.91-.02-2.39zM4.24.1 16.28 7.06 13.72 9.6 3.18.22C3.55.12 3.92.17 4.24.1z"/></svg>
-        <span data-t="cta">Download on Google Play</span>
-      </a>
+      <div class="final-cta-actions">
+        <a href="https://play.google.com/store/apps/details?id=zg.wisenotes.app" target="_blank" rel="noopener" class="cta-btn" aria-label="Download WiseNotes on Google Play">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.18 23.76c.33.19.7.24 1.06.14l12.04-6.96-2.56-2.56-10.54 9.38zm-1.04-20.3A1.97 1.97 0 0 0 2 4.67v14.66c0 .55.14 1.05.14 1.05l10.82-9.37L2.14 3.46zm19.1 8.06-2.9-1.68-2.88 2.88 2.88 2.88 2.92-1.69c.83-.48.83-1.91-.02-2.39zM4.24.1 16.28 7.06 13.72 9.6 3.18.22C3.55.12 3.92.17 4.24.1z"/></svg>
+          <span data-t="cta">Download on Google Play</span>
+        </a>
+        <div class="qr-block">
+          <img src="WN_qr_icon_small.png" alt="QR code to download WiseNotes on Google Play" />
+          <span class="qr-label" data-t="qr_label">Scan to open on your phone</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -483,6 +526,7 @@ const T = {
     ex2_title:'Flexible sharing', ex2_body:'Share single notes or entire projects with anyone.',
     ex3_title:'Cloud ready', ex3_body:'Save everything to your preferred cloud service seamlessly.',
     final_title:'Ready to get organized?', final_sub:'WiseNotes is available on Google Play. Free to try.',
+	qr_label: 'Scan to open on your phone',
   },
   it: {
     hero_title:'Organizza le tue note<br>in <span>progetti</span>',
@@ -510,6 +554,7 @@ const T = {
     ex2_title:'Condivisione flessibile', ex2_body:'Condividi singole note o interi progetti con chiunque.',
     ex3_title:'Pronto per il cloud', ex3_body:'Salva tutto sul tuo servizio cloud preferito senza sforzo.',
     final_title:'Pronto a organizzarti?', final_sub:'WiseNotes è disponibile su Google Play.',
+	qr_label: 'Scansiona per aprire sul telefono',
   },
   es: {
     hero_title:'Organiza tus notas<br>en <span>proyectos</span>',
@@ -537,6 +582,7 @@ const T = {
     ex2_title:'Compartir flexible', ex2_body:'Comparte notas individuales o proyectos completos con cualquiera.',
     ex3_title:'Listo para la nube', ex3_body:'Guarda todo en tu servicio en la nube preferido sin esfuerzo.',
     final_title:'¿Listo para organizarte?', final_sub:'WiseNotes está disponible en Google Play.',
+	qr_label: 'Escanea para abrir en tu móvil',
   },
   fr: {
     hero_title:'Organisez vos notes<br>en <span>projets</span>',
@@ -564,6 +610,7 @@ const T = {
     ex2_title:'Partage flexible', ex2_body:'Partagez des notes individuelles ou des projets entiers avec n\'importe qui.',
     ex3_title:'Prêt pour le cloud', ex3_body:'Sauvegardez tout sur votre service cloud préféré sans effort.',
     final_title:'Prêt à vous organiser ?', final_sub:'WiseNotes est disponible sur Google Play.',
+	qr_label: 'Scannez pour ouvrir sur votre téléphone',
   },
   de: {
     hero_title:'Organisiere deine Notizen<br>in <span>Projekten</span>',
@@ -591,6 +638,7 @@ const T = {
     ex2_title:'Flexibles Teilen', ex2_body:'Teile einzelne Notizen oder ganze Projekte mit jedem.',
     ex3_title:'Cloud-bereit', ex3_body:'Speichere alles nahtlos in deinem bevorzugten Cloud-Dienst.',
     final_title:'Bereit, dich zu organisieren?', final_sub:'WiseNotes ist bei Google Play erhältlich.',
+	qr_label: 'Scannen zum Öffnen auf dem Handy',
   },
   pt: {
     hero_title:'Organize suas notas<br>em <span>projetos</span>',
@@ -618,6 +666,7 @@ const T = {
     ex2_title:'Compartilhamento flexível', ex2_body:'Compartilhe notas individuais ou projetos inteiros com qualquer pessoa.',
     ex3_title:'Pronto para a nuvem', ex3_body:'Salve tudo no seu serviço de nuvem favorito sem esforço.',
     final_title:'Pronto para se organizar?', final_sub:'WiseNotes está disponível no Google Play.',
+	qr_label: 'Escaneie para abrir no seu celular',
   }
 };
 
